@@ -39,7 +39,7 @@ if selected == "EDA":
 
     
 if selected == "Models":
-    st.subheader('Trained Models Information',divider=True)
+    st.subheader(':orange[Trained Models Information]',divider=True)
     
     with st.expander('Training Data'):
         st.dataframe(read_data())
@@ -71,9 +71,7 @@ if selected == "Models":
     
 if selected == "Prediction":
     
-    st.header(":blue[Prediction Page]",divider=True)
-    st.markdown(" ")
-    
+    st.markdown("### :orange[Prediction Page]")    
     with st.form('my_form',border=True):
         col1, col2, col3 = st.columns(3)
     
@@ -152,12 +150,11 @@ if selected == "Prediction":
         
 if selected == "Interpretation":
     data   = read_data()
-    st.markdown("### :brown[Explainable AI]")
-    st.markdown("---")
+    st.markdown("### :orange[Explainable AI]")
     
     data_instance = st.sidebar.selectbox("Select a Data Instance",options= data.index.to_list())
     st.data_editor(data,use_container_width=True,height=250)
-    
+    st.markdown('👈 Please selecte Data Instance Selected')
     if data_instance:  
         data_picked= data.loc[[data_instance]]
         st.write('Data Instance Selected')
