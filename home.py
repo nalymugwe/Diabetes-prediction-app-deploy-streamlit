@@ -3,6 +3,8 @@ from streamlit_option_menu import option_menu
 import plotly.express as px
 import streamlit.components.v1 as components
 
+
+
 from data import *
 from plot_fun import *
 
@@ -17,19 +19,24 @@ model_path     = 'models_metadata.pkl'
 
 
 with st.sidebar:
-    selected = option_menu(None, ["Home", "Models", "Prediction",'Interpretation'], 
+    selected = option_menu(None, ["Home","EDA", "Models", "Prediction",'Interpretation'], 
     icons     =['house', 'cloud-upload', "list-task", 'gear'], 
     menu_icon ="cast", default_index=0, orientation="vertical",
     
     styles={
     "icon"              : {"color": "orange", "font-size": "16px"}, 
-    "nav-link"          : {"font-size": "16px", "text-align": "left", "margin":"0px", "--hover-color": "#eee"},
+    "nav-link"          : {"font-size": "15px", "text-align": "left", "margin":"0px", "--hover-color": "#eee"},
     "nav-link-selected" : {"background-color": "green"},
     })
     
     
-if selected == "Home":
-    st.header("Diabetes Prediction Tool")
+if selected == "EDA":
+    st.header(":orange[Diabetes Prediction] Tool Exploratory Analysis",divider=True,)
+    st.markdown("---")
+
+    renderer = get_pyg_renderer()
+    renderer.render_explore()
+
     
 if selected == "Models":
     st.subheader('Trained Models Information',divider=True)
@@ -141,6 +148,25 @@ if selected == "Prediction":
 
     else:
         st.warning("Please fill the form to Predict the chance of Diabetes")
+        
+        
+if selected == "Interpretation":
+    data   = read_data()
+    st.markdown("### :brown[Explainable AI]")
+    st.markdown("---")
+    
+    data_instance = st.sidebar.selectbox("Select a Data Instance",options= data.index.to_list())
+    st.data_editor(data,use_container_width=True,height=250)
+    
+    if data_instance:  
+        data_picked= data.loc[[data_instance]]
+        st.write('Data Instance Selected')
+        st.data_editor(data_picked,use_container_width=True,)
+        
+        on = st.toggle("Show Interpretability")
+        if on:
+            with st.container(border=True):
+                components.html(lime_explainer(read_data(),12), height=800, width=900, scrolling=True)
 
 
 
