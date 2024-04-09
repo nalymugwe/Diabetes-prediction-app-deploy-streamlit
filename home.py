@@ -7,8 +7,6 @@ from data import *
 from plot_fun import *
 
 
-
-
 # Page configuration
 
 st.set_page_config(page_title="Diabetes Prediction Tool", page_icon="🥗", layout="wide")
@@ -58,7 +56,7 @@ if selected == "Models":
     st.sidebar.markdown("### Download")
     download_choice=st.sidebar.selectbox(label='Select what to download 👇',options=["Serialized Model","Notebook"])
     
-    if download_choice=='Model':
+    if download_choice=='Serialized Model':
         download_objects(model_path)
     if download_choice=='Notebook':
         download_objects(note_book_path)
